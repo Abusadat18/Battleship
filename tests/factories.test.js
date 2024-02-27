@@ -19,8 +19,10 @@ test("Create Board", () => {
   ]);
 });
 
+/* CREATING A GAME BOARD */
+const gameBoard = GameBoard();
+
 test("Place Ships", () => {
-  const gameBoard = GameBoard();
   /* SHIP 1 TEST */
   gameBoard.placeShip(3, 0, 1);
   expect(gameBoard.getBoard()[0]).toEqual([
@@ -53,9 +55,6 @@ test("Place Ships", () => {
 });
 
 test("Receive Attack", () => {
-  const gameBoard = GameBoard();
-  gameBoard.placeShip(3, 0, 1);
-  gameBoard.placeShip(5, 3, 1);
   /* HITTING A SHIP */
   expect(gameBoard.receiveAttack(0, 1)).toBe(1);
   expect(gameBoard.receiveAttack(0, 2)).toBe(1);
@@ -67,33 +66,20 @@ test("Receive Attack", () => {
 });
 
 test("Attack Hitting A Ship", () => {
-  const gameBoard = GameBoard();
-  gameBoard.placeShip(3, 0, 1);
-  gameBoard.placeShip(5, 3, 1);
-  gameBoard.receiveAttack(0, 1);
-  gameBoard.receiveAttack(0, 2);
-  gameBoard.receiveAttack(0, 3);
-  gameBoard.receiveAttack(3, 2);
-
   let shipList = gameBoard.getShipList();
-  expect(shipList[0].getNoOfHits()).toBe(3);
+  expect(shipList[0].getNoOfHits()).toBe(2);
   expect(shipList[1].getNoOfHits()).toBe(1);
 });
 
 test("Storing Missed Shots", () => {
-  const gameBoard = GameBoard();
-  gameBoard.placeShip(3, 0, 1);
-  gameBoard.placeShip(5, 3, 1);
-  gameBoard.receiveAttack(0, 0);
-  gameBoard.receiveAttack(8, 7);
   expect(gameBoard.getMissedAttacks()).toEqual([
     [0, 0],
-    [8, 7],
+    [8, 6],
   ]);
   gameBoard.receiveAttack(6, 6);
   expect(gameBoard.getMissedAttacks()).toEqual([
     [0, 0],
-    [8, 7],
+    [8, 6],
     [6, 6],
   ]);
 });
