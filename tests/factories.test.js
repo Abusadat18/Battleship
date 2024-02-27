@@ -83,3 +83,15 @@ test("Storing Missed Shots", () => {
     [6, 6],
   ]);
 });
+
+test("All Ship Sunk", () => {
+  expect(gameBoard.isAllShipSunk()).toBeFalsy();
+  gameBoard.receiveAttack(0, 3);
+  expect(gameBoard.isAllShipSunk()).toBeFalsy();
+  gameBoard.receiveAttack(3, 2);
+  gameBoard.receiveAttack(3, 3);
+  gameBoard.receiveAttack(3, 4);
+  expect(gameBoard.isAllShipSunk()).toBeFalsy();
+  gameBoard.receiveAttack(3, 5);
+  expect(gameBoard.isAllShipSunk()).toBeTruthy();
+});

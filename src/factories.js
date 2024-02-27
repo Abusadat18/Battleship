@@ -59,7 +59,23 @@ function GameBoard() {
     return shipList;
   }
 
-  return { placeShip, getBoard, receiveAttack, getShipList, getMissedAttacks };
+  function isAllShipSunk() {
+    for (let ship of shipList) {
+      if (!ship.isSunk()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  return {
+    placeShip,
+    getBoard,
+    receiveAttack,
+    getShipList,
+    getMissedAttacks,
+    isAllShipSunk,
+  };
 }
 
 function createBoard(rows, cols) {
