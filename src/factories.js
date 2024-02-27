@@ -23,8 +23,14 @@ function Ship(length) {
 
 function GameBoard() {
   const Board = createBoard(10, 10);
-  let index = 0;
+
+  function getBoard() {
+    return Board;
+  }
+
+  let index = 1;
   const shipList = [];
+  const missedAttacks = [];
 
   function placeShip(length, x, y) {
     const ship = Ship(length);
@@ -35,11 +41,25 @@ function GameBoard() {
     shipList.push(ship);
   }
 
-  function getBoard() {
-    return Board;
+  function receiveAttack(x, y) {
+    const attackPt = Board[x][y];
+    if (attackPt) {
+      shipList[attackPt - 1].hit(); /* Since Index Is 1 based [See Line 31] */
+    } else {
+      missedAttacks.push([x, y]);
+    }
+    return attackPt;
   }
 
-  return { placeShip, getBoard };
+  function getMissedAttacks() {
+    return missedAttacks;
+  }
+
+  function getShipList() {
+    return shipList;
+  }
+
+  return { placeShip, getBoard, receiveAttack, getShipList, getMissedAttacks };
 }
 
 function createBoard(rows, cols) {
