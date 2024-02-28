@@ -48,7 +48,6 @@ function GameBoard() {
     } else {
       missedAttacks.push([x, y]);
     }
-    return attackPt;
   }
 
   function getMissedAttacks() {
