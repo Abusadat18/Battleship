@@ -1,3 +1,5 @@
+import { createBoard, filterBoard as getValidAttackPts } from "./board";
+
 function Ship(length) {
   let noOfHits = 0;
 
@@ -48,6 +50,7 @@ function GameBoard() {
     } else {
       missedAttacks.push([x, y]);
     }
+    Board[x][y] = 0;
   }
 
   function getMissedAttacks() {
@@ -77,16 +80,24 @@ function GameBoard() {
   };
 }
 
-function createBoard(rows, cols) {
-  const t1 = [];
-  for (let i = 0; i < rows; i++) {
-    const t2 = [];
-    for (let j = 0; j < cols; j++) {
-      t2.push(null);
+function Player(name, opponentBoard) {
+  function canAttack(x, y) {
+    if (opponentBoard.getBoard()[x][y] === 0) {
+      return false;
     }
-    t1.push(t2);
+    return true;
   }
-  return t1;
+
+  return { name, canAttack };
 }
 
-export { Ship, GameBoard, createBoard };
+function Bot(opponentBoard) {
+  function attack() {
+    const filterBoard = getValidAttackPts(opponentBoard.getBoard());
+    const randomShot = Math.floor(Math.random() * filterBoard.length);
+    return filterBoard[randomShot];
+  }
+  return { attack };
+}
+
+export { Ship, GameBoard, Player };

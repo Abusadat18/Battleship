@@ -1,4 +1,4 @@
-import { GameBoard, Ship, createBoard } from "../src/factories";
+import { GameBoard, Player, Ship } from "../src/factories";
 
 test("Ship Factory", () => {
   let destroyer = Ship(3);
@@ -10,13 +10,6 @@ test("Ship Factory", () => {
   destroyer.hit();
   expect(destroyer.getNoOfHits()).toBe(3);
   expect(destroyer.isSunk()).toBeTruthy();
-});
-
-test("Create Board", () => {
-  expect(createBoard(2, 2)).toEqual([
-    [null, null],
-    [null, null],
-  ]);
 });
 
 describe("Game Board Factory", () => {
@@ -40,9 +33,9 @@ describe("Game Board Factory", () => {
   test("Place Ships", () => {
     /* SHIP 1 TEST */
     expect(gameBoard.getBoard()[0]).toEqual([
-      null,
-      1,
-      1,
+      0,
+      0,
+      0,
       1,
       null,
       null,
@@ -55,7 +48,7 @@ describe("Game Board Factory", () => {
     /* SHIP 2 TEST */
     expect(gameBoard.getBoard()[3]).toEqual([
       null,
-      2,
+      0,
       2,
       2,
       2,
@@ -96,5 +89,11 @@ describe("Game Board Factory", () => {
     expect(gameBoard.isAllShipSunk()).toBeFalsy();
     gameBoard.receiveAttack(3, 5);
     expect(gameBoard.isAllShipSunk()).toBeTruthy();
+  });
+
+  test("Player Creation", () => {
+    const player = Player("Smith", gameBoard);
+    expect(player.canAttack(0, 3)).toBeTruthy();
+    expect(player.canAttack(3, 1)).toBeFalsy();
   });
 });
